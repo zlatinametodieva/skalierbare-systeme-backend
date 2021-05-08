@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>TODO</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+  <link rel="stylesheet"  href="{%  static  'css/style.css'  %}">
+</head>
+
+<body>
+  <div class="d-flex flex-column min-vh-100">
+    <!--Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">TO-DO TRACKER</a>
+      </div>
+    </nav>
+    <main class="flex-fill">
+      <!--Table-->
+      <div class="table-responsive">
+        <table id="todo-table" class="table table-bordered" style="font-size:15px; max-width: 800px; margin-left: auto; margin-right: auto; margin-top: 2.5%; margin-bottom: 0%;">
+          <thead>
+            <th class="text-center" style="width: 5%;">#</th>
+            <th class="text-left">TODO</th>
+            <th class="text-center" style="width: 17%">DEADLINE</th>
+            <th class="text-center" style="width: 6%;">%</th>
+            <th colspan="2" class="text-center" style="width: 25%;">ACTIONS</th>
+          </thead>
+          <tbody>
+            {% for i, todo in todo_list %}
+              <tr>
+                <td class="text-center">{{ i }}</td>
+                <td class="text-left">{{ todo.content }}</td>
+                <td class="text-center">{{ todo.deadline }}</td>
+                <td class="text-center">{{ todo.progress }}</td>
+                <td class="text-center"><button type="button" class="btn btn-success btn-edt" data-toggle="modal" data-target="#editModal">Edit</button></td>
+                <td class="text-center"><button type="button" class="btn btn-danger btn-dlt">Delete</button></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!--ADD Button-->
+      <div class="container-fluid text-center" style="padding-top: 15px; padding-bottom: 35px;">
+        <button id="addBtnTable" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addModal"><strong>ADD TODO</strong></button>          
+      </div>
+      <!--EDIT Modal-->
+      <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <form id="edit-form" class="container-fluid">
+                <div class="form-group">
+                  <label for="to-edit" class="col-form-label">TODO</label>
+                  <textarea id="to-edit" class="form-control" rows="3" maxlength="159"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="date" class="col-form-label">Deadline</label>
+                  <input id="date" type="date" class="form-control">
+                </div>
+                <div class="form-group">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label id="progr" for="prog" class="input-group-text">Progress</label>
+                    </div>
+                    <select id="prog" class="custom-select 1-100"></select>
+                  </div>
+                </div>
+                <button id="addBtnEdit" type="button" class="btn btn-secondary" onclick="alertFunctionEdit()">SAVE</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--ADD Modal-->
+      <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <form id="add-form" class="container-fluid" action="/" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="to-do" class="col-form-label">TODO</label>
+                  <textarea id="to-do" class="form-control" name="content" rows="3" maxlength="159" placeholder="Write down your todo..."></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="deadline" class="col-form-label">Deadline</label>
+                  <input id="deadline" type="date" name="deadline" class="form-control">
+                </div>
+                <button id="addBtnAdd" type="button" class="btn btn-secondary" onclick="alertFunctionAdd()">ADD</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!--Footer-->
+    <footer>
+      <a class="footer-link" href="impressum">Impressum</a>
+    </footer>
+    
+    <script>
+      $(function(){
+        var $select = $(".1-100");
+        for (i = 0; i <= 100; i++) {
+          $select.append($('<option></option>').val(i).html(i));
+        }
+      });
+
+      function alertFunctionAdd() {
+        var todoInput = document.getElementById("to-do").value;
+        var deadlineInput = document.getElementById("deadline").value;
+        var form = document.getElementById("add-form");
+
+        if (todoInput === '') {
+          alert("You must write something!");
+        }
+        else if (deadlineInput === '') {
+          alert("You must pick a date!");
+        }
+        else {
+          form.submit();
+        }
+      }
+
+      function alertFunctionEdit() {
+        // TODO
+      }
+    </script>
+  </div>
+</body>
+</html>

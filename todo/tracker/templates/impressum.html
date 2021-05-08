@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>TODO</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <link rel="stylesheet"  href="{%  static  'css/style.css'  %}">
+</head>
+
+<body>
+    <div class="d-flex flex-column min-vh-100">
+        <!--Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">TO-DO TRACKER</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="/">MY TODOs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!--Impressum-->
+        <main class="flex-fill">
+            <div class="container-fluid padding">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <h5><strong>This website was created by:</strong></h5>
+                        <h6>Alara Ates and Zlatina Metodieva</h6>
+                    </div>
+                    <hr>
+                    <div class="col-12">
+                        <p><a href="https://www.freepik.com/vectors/frame" target="_blank">Frame vector created by rawpixel.com - www.freepik.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--Footer-->
+        <footer>
+            <a class="footer-link active" href="impressum">Impressum</a>
+        </footer>
+
+        <script>
+            var navbarcollapse = document.getElementById("navbarResponsive");
+        
+            // Event listener
+        
+            // collapse navbar on resize
+            window.addEventListener("resize", () => {
+                var w = document.documentElement.clientWidth;
+                var h = document.documentElement.clientHeight;
+                if (w >= 992) {
+                    navbarcollapse.classList.remove("show");
+                }
+            })
+            // collapse navbar on focusout
+            document.addEventListener("click", (event) => {
+                let clickedElement = event.target; // clicked element
+                if (clickedElement != navbarcollapse) {
+                    $('.collapse').collapse('hide');
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
