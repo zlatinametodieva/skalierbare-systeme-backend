@@ -19,6 +19,8 @@ python -m pip install Django
 git clone https://github.com/zlatinametodieva/skalierbare-systeme-backend.git
 ```
 
+### Step 3: Start app
+
 ```commandline
 cd skalierbare-systeme-backend\todo
 ```
