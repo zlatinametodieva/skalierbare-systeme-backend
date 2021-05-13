@@ -188,7 +188,7 @@ a.footer-link.active {
 }
 
 /*  ADD SECTION  */
-form {
+#addForm {
     color: #efe9ce;
     padding: 20px;
     background-color: #0d3133;

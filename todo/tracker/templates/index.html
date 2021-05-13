@@ -40,50 +40,58 @@
                 <td class="text-center">{{ todo.deadline }}</td>
                 <td class="text-center">{{ todo.progress }}</td>
                 <td class="text-center"><button type="button" class="btn btn-success btn-edt" data-toggle="modal" data-target="#editModal">Edit</button></td>
-                <td class="text-center"><button type="button" class="btn btn-danger btn-dlt">Delete</button></td>
+                <td class="text-center">
+                  <form id="deleteForm" class="container-fluid" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ todo.id }}">
+                    <button type="submit" class="btn btn-danger btn-dlt">Delete</button>
+                  </form>
+                </td>
               </tr>
+              <!--EDIT Modal-->
+              <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-body">
+                      <form id="editForm" class="container-fluid" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="to-edit" class="col-form-label">TODO</label>
+                          <textarea id="to-edit" name="cont" class="form-control" rows="3" maxlength="159"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label for="date" class="col-form-label">Deadline</label>
+                          <input id="date" name="dline" type="date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label id="progr" for="prog" class="input-group-text">Progress</label>
+                            </div>
+                            <select id="prog" name="prog" class="custom-select 1-100"></select>
+                          </div>
+                        </div>
+                        <input type="hidden" name="n" value="{{ todo.id }}">
+                        <button id="addBtnEdit" type="button" class="btn btn-secondary" onclick="alertFunctionEdit()">SAVE</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             {% endfor %}
           </tbody>
         </table>
       </div>
       <!--ADD Button-->
       <div class="container-fluid text-center" style="padding-top: 15px; padding-bottom: 35px;">
-        <button id="addBtnTable" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addModal"><strong>ADD TODO</strong></button>          
-      </div>
-      <!--EDIT Modal-->
-      <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-body">
-              <form id="edit-form" class="container-fluid">
-                <div class="form-group">
-                  <label for="to-edit" class="col-form-label">TODO</label>
-                  <textarea id="to-edit" class="form-control" rows="3" maxlength="159"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="date" class="col-form-label">Deadline</label>
-                  <input id="date" type="date" class="form-control">
-                </div>
-                <div class="form-group">
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <label id="progr" for="prog" class="input-group-text">Progress</label>
-                    </div>
-                    <select id="prog" class="custom-select 1-100"></select>
-                  </div>
-                </div>
-                <button id="addBtnEdit" type="button" class="btn btn-secondary" onclick="alertFunctionEdit()">SAVE</button>
-              </form>
-            </div>
-          </div>
-        </div>
+        <button id="addBtnTable" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addModal"><strong>ADD TODO</strong></button>
       </div>
       <!--ADD Modal-->
       <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-body">
-              <form id="add-form" class="container-fluid" action="/" method="post">
+              <form id="addForm" class="container-fluid" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                   <label for="to-do" class="col-form-label">TODO</label>
@@ -104,7 +112,7 @@
     <footer>
       <a class="footer-link" href="impressum">Impressum</a>
     </footer>
-    
+
     <script>
       $(function(){
         var $select = $(".1-100");
@@ -116,7 +124,7 @@
       function alertFunctionAdd() {
         var todoInput = document.getElementById("to-do").value;
         var deadlineInput = document.getElementById("deadline").value;
-        var form = document.getElementById("add-form");
+        var form = document.getElementById("addForm");
 
         if (todoInput === '') {
           alert("You must write something!");
@@ -130,9 +138,21 @@
       }
 
       function alertFunctionEdit() {
-        var form = document.getElementById("edit-form");
-        form.submit();
+        var todoInput = document.getElementById("to-edit").value;
+        var deadlineInput = document.getElementById("date").value;
+        var form = document.getElementById("editForm");
+
+        if (todoInput === '') {
+          alert("You must write something!");
+        }
+        else if (deadlineInput === '') {
+          alert("You must pick a date!");
+        }
+        else {
+          form.submit();
+        }
       }
+
     </script>
   </div>
 </body>
